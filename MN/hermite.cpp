@@ -1,8 +1,8 @@
 #include "hermite.h"
 #include "global.h"
 
-//#include <iostream>
-//using namespace std;
+#include <iostream>
+using namespace std;
 
 HNode::HNode(int n, float x, float * var):n(n),x(x){
 	this->var = new float[n];
@@ -110,12 +110,12 @@ void Hermite::interpolation(){
 		//przechowanie wyniku (elementy przekatnej)
 		a[count++] = zi[0];
 
-		/*
+		
 		//pomocnicze wypisanie tablicy - kontrola
 		for (int k = 0; k < act; k++)
 			cout << zi[k] << " ";
 		cout << endl;
-		*/
+		
 
 		//wykonanie algorytmu dla tablicy
 		for (int k = 1; k < act; k++) {
@@ -143,5 +143,15 @@ float Hermite::PointValue(float x) {
 		acum += tmp;
 	}
 	return acum;
+}
+
+
+float Hermite::SSE() {
+	float acum = 0, y2;
+	for (int k = 0; k < nn; k++) {
+		y2 = PointValue(MyNodes[k].x);
+		acum += (MyNodes[k].var[0] - y2)*(MyNodes[k].var[0] - y2);
+	}
+	return acum / n;;
 }
 

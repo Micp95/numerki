@@ -8,6 +8,7 @@ float* polynomial::Interpolation(float* x, float* y, int n, int degree) {
 
 	if (degree > n)
 		return NULL;
+
 	float acummult, acumsum;
 
 	for (int k = 0, i, j; k < degree; k++) {//kolejne wyrazy
@@ -38,7 +39,7 @@ float polynomial::PointValue(float x) {
 		acummult = 1;
 		for (int p = 0; p < k; p++)
 			acummult *= (x - xn[p]);
-
+		float kfsd = bn[k] * acummult;
 		acumsum += bn[k] * acummult;
 	}
 	return acumsum;
@@ -50,5 +51,5 @@ float polynomial::SSE() {
 		y2 = PointValue(xn[k]);
 		acum += (yn[k] - y2)*(yn[k] - y2);
 	}
-	return acum;
+	return acum / n;;
 }

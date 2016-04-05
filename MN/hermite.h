@@ -8,9 +8,10 @@ struct HNode{
 	HNode(int n,float x,float*var);
 	HNode():var(NULL) {};
 	HNode(const HNode& nh);
-	~HNode();
 
 	HNode& operator= (const HNode& x);
+
+	~HNode();
 
 	int n;			//ilosc informacji
 	float x;		//wartosci x
@@ -24,6 +25,7 @@ public:
 	~Hermite();
 
 	float PointValue(float x);
+	float SSE();
 private:
 	HNode* MyNodes;
 
