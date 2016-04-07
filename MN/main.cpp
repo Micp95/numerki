@@ -60,25 +60,37 @@ int main() {
 		Approximation::Point(6,4), Approximation::Point(8,5), Approximation::Point(9,7),
 		Approximation::Point(11,8), Approximation::Point(14,9) };
 
-	*/
 	Approximation::Point tab[] = { Approximation::Point(1,-1), Approximation::Point(3,101), Approximation::Point(5,739),
 		Approximation::Point(6,1499), Approximation::Point(7,2739)};
+	*/
+	
+	Approximation::Point tab[] = {
+		Approximation::Point(1,62),Approximation::Point(2,232),
+		Approximation::Point(3,1330),Approximation::Point(4,5984),
+		Approximation::Point(5, 20590), Approximation::Point(6, 57952),
+		Approximation::Point(7,140642),Approximation::Point(8,305080),
+		Approximation::Point(9,606334),Approximation::Point(10,1123640),
+		Approximation::Point(11,1966642),Approximation::Point(12,3282352),
+		Approximation::Point(13,5262830),Approximation::Point(14,8153584),
+	};
 
-	Approximation aproks(tab, 5, 4,Approximation::sel::Cramer);
-
+	Approximation aproks(tab, 14, 7, Approximation::sel::Gausse);
+	
 	double* out = aproks.getOutput();
+	
 	cout << endl << endl;
-	for (int k = 0; k < 5; k++)
+	for (int k = 0; k < 7; k++)
 		cout << out[k] << " "; 
-
+	
 	cout << endl<<endl;
+
 	for (int k = 1; k < 15; k++)
 		cout << k << ".\t" << aproks.PointValue(k) << endl;
-	cout << endl;
-
-	cout <<"Error:\t"<< aproks.SSE() << endl;
+	
+	cout <<endl <<"Error:\t"<< aproks.SSE() << endl;
 
 #endif
+
 	system("pause");
 	return 0;
 }
