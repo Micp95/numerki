@@ -2,9 +2,9 @@
 #define APPROXIMATION_H
 
 
+#include "polynomial.h"
 
-
-class Approximation{
+class Approximation: public polynomial{
 public:
 
 	enum sel {
@@ -44,9 +44,9 @@ public:
 	Approximation(Point* input, int size, int degree,sel mySel);
 	~Approximation();
 
-	double PointValue(double x);
+	virtual double PointValue(double x);
 	double* getOutput() { return output; }
-	double SSE();
+	virtual double SSE();
 
 private:
 	sel mySel;

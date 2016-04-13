@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="approximation.cpp" />
     <ClCompile Include="hermite.cpp" />
+    <ClCompile Include="Integral.cpp" />
     <ClCompile Include="interpolation.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -127,7 +128,9 @@
     <ClInclude Include="approximation.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="hermite.h" />
+    <ClInclude Include="Integral.h" />
     <ClInclude Include="interpolation.h" />
+    <ClInclude Include="polynomial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

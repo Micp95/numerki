@@ -1,25 +1,42 @@
-//#define INTER_HERMITE		//Hermite interpolation
+//#define INTER_HERMITE			//Hermite interpolation
 //#define INTER_LAGRANGE		//Lagrange interpolation
-#define APPROX_LS			//Least-squares function approximation
+//#define APPROX_LS				//Least-squares function approximation
+#define INTEGRAL				//Integral calculator (Methods: Rectangle, Trapezoidal, Simpson)
+#define ALL_LIB
 
 
 #include <iostream>
 #include <string>
-
-
-#ifdef INTER_LAGRANGE
-#include "interpolation.h"
-#endif
-#ifdef INTER_HERMITE
-#include "hermite.h"
-#endif
-#ifdef APPROX_LS
-#include "approximation.h"
-#endif
-
-
 using namespace std;
 
+
+//Includes to execises
+#if defined(INTER_LAGRANGE) || defined(ALL_LIB)
+#include "interpolation.h"
+#endif
+#if defined(INTER_HERMITE) || defined(ALL_LIB)
+#include "hermite.h"
+#endif
+#if defined(APPROX_LS) || defined(ALL_LIB)
+#include "approximation.h"
+#endif
+#if defined(INTEGRAL) || defined(ALL_LIB)
+#include "Integral.h"
+#include "polynomial.h"
+#endif
+
+
+
+//Others definitions
+#if defined(INTEGRAL) || defined(ALL_LIB)
+double fun(double x) {
+	return 5;
+}
+#endif
+
+
+
+//Main function
 int main() {
 
 #ifdef INTER_LAGRANGE
@@ -32,6 +49,9 @@ int main() {
 		cout << k << "\t" << wiel.PointValue(k) << endl;
 
 	cout << "Error\t" << wiel.SSE() << endl;
+
+	delete[] x;
+	delete[] y;
 #endif
 
 #ifdef INTER_HERMITE
@@ -52,18 +72,18 @@ int main() {
 	cout << inter.PointValue(0) << endl;
 	cout << inter.PointValue(1) << endl;
 	//cout << inter.PointValue(2) << endl;
+
+	delete[] tmp;
 #endif
 
 #ifdef APPROX_LS
+
+	Approximation::Point tab[] = { Approximation::Point(1,-1), Approximation::Point(3,101), Approximation::Point(5,739),
+		Approximation::Point(6,1499), Approximation::Point(7,2729)};
 	/*
 	Approximation::Point tab[] = { Approximation::Point(1,1), Approximation::Point(3,2), Approximation::Point(4,4),
 		Approximation::Point(6,4), Approximation::Point(8,5), Approximation::Point(9,7),
 		Approximation::Point(11,8), Approximation::Point(14,9) };
-
-	Approximation::Point tab[] = { Approximation::Point(1,-1), Approximation::Point(3,101), Approximation::Point(5,739),
-		Approximation::Point(6,1499), Approximation::Point(7,2739)};
-	*/
-	
 	Approximation::Point tab[] = {
 		Approximation::Point(1,62),Approximation::Point(2,232),
 		Approximation::Point(3,1330),Approximation::Point(4,5984),
@@ -73,13 +93,15 @@ int main() {
 		Approximation::Point(11,1966642),Approximation::Point(12,3282352),
 		Approximation::Point(13,5262830),Approximation::Point(14,8153584),
 	};
+	*/
+	
 
-	Approximation aproks(tab, 14, 7, Approximation::sel::Gausse);
+	Approximation aproks(tab, 5, 5, Approximation::sel::Gausse);
 	
 	double* out = aproks.getOutput();
 	
 	cout << endl << endl;
-	for (int k = 0; k < 7; k++)
+	for (int k = 0; k < 6; k++)
 		cout << out[k] << " "; 
 	
 	cout << endl<<endl;
@@ -89,7 +111,32 @@ int main() {
 	
 	cout <<endl <<"Error:\t"<< aproks.SSE() << endl;
 
+	delete[] out;
+
 #endif
+
+#ifdef INTEGRAL
+
+	Integral integral(fun, Integral::method::Rectangle);
+	
+	cout << "Pole liczone metoda prostokatow wynosi:\t" << integral.calculate(0, 5, 1)<<endl;
+	integral.setMethod(Integral::method::Trapezoidal);
+	cout << "Pole liczone metoda trapezow wynosi:\t" << integral.calculate(0, 5, 10) << endl;
+	integral.setMethod(Integral::method::Simpson);
+	cout << "Pole liczone metoda Simpsona wynosi:\t" << integral.calculate(0, 5, 100) << endl;
+
+#endif
+	
+
+
+
+#ifdef ALL_LIB
+
+
+
+
+#endif
+
 
 	system("pause");
 	return 0;

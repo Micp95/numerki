@@ -1,25 +1,26 @@
 #ifndef INTERPOLATION_H
 #define INTERPOLATION_H
 
+#include "polynomial.h"
 
-class polynomial {
-	float* bn;
-	float* xn;
-	float* yn;
+class interpolation: public polynomial {
+	double* bn;
+	double* xn;
+	double* yn;
 	int n;
 
 	int degree;
 
-	float* Interpolation(float* x, float* y, int n, int degree);
+	double* Interpolation(double* x, double* y, int n, int degree);
 public:
-	polynomial(float* x, float* y, int n, int degree) : xn(x), yn(y), degree(degree), n(n) {
+	interpolation(double* x, double* y, int n, int degree) : xn(x), yn(y), degree(degree), n(n) {
 		bn = Interpolation(xn, yn, n, degree);
 	}
-	float PointValue(float x);
-	float SSE();
+	~interpolation();
+
+	virtual double PointValue(double x);
+	virtual double SSE();
 };
-
-
 
 
 #endif

@@ -4,8 +4,8 @@
 #include <iostream>
 using namespace std;
 
-HNode::HNode(int n, float x, float * var):n(n),x(x){
-	this->var = new float[n];
+HNode::HNode(int n, double x, double * var):n(n),x(x){
+	this->var = new double[n];
 
 	for (int k = 0; k < n; k++)
 		this->var[k] = var[k];
@@ -15,7 +15,7 @@ HNode::HNode(int n, float x, float * var):n(n),x(x){
 HNode::HNode(const HNode& nx){
 	x = nx.x;
 	n = nx.n;
-	var = new float[n];
+	var = new double[n];
 	for (int k = 0; k < n; k++)
 		this->var[k] = nx.var[k];
 }
@@ -30,7 +30,7 @@ HNode & HNode::operator=(const HNode & nx){
 		delete[] var;
 	x = nx.x;
 	n = nx.n;
-	var = new float[n];
+	var = new double[n];
 	for (int k = 0; k < n; k++)
 		this->var[k] = nx.var[k];
 
@@ -68,8 +68,8 @@ void Hermite::initialization() {
 	}
 	n = acum;
 
-	a = new float[n];
-	xi = new float[n];
+	a = new double[n];
+	xi = new double[n];
 	nodeIndex = new int[n];
 
 	//uzupelnienie tablicy xi - powielona informacjia o x w zaleznosci od jego opisu
@@ -81,15 +81,15 @@ void Hermite::initialization() {
 
 }
 
-float Hermite::thisSameFun(HNode x, int degree) {
+double Hermite::thisSameFun(HNode x, int degree) {
 	return x.var[degree] / factorial(degree);
 }
 
-float Hermite::otherFun(float x1,float x2,float fx1,float fx2) {
+double Hermite::otherFun(double x1, double x2, double fx1, double fx2) {
 	return (fx2 - fx1) / (x2 - x1);
 }
 
-float Hermite::factorial(int x) {
+double Hermite::factorial(int x) {
 	if (x == 0)
 		return 1;
 	return x * factorial(x - 1);
@@ -97,7 +97,7 @@ float Hermite::factorial(int x) {
 
 
 void Hermite::interpolation(){
-	float* zi = new float[n];
+	double* zi = new double[n];
 	int act = n, count = 0;
 
 
@@ -134,8 +134,8 @@ void Hermite::interpolation(){
 }
 
 
-float Hermite::PointValue(float x) {
-	float acum = 0,tmp;
+double Hermite::PointValue(double x) {
+	double acum = 0,tmp;
 	for (int k = 0,p; k < n; k++) {
 		tmp = a[k];
 		for (p = 1; p <= k; p++)
@@ -146,8 +146,8 @@ float Hermite::PointValue(float x) {
 }
 
 
-float Hermite::SSE() {
-	float acum = 0, y2;
+double Hermite::SSE() {
+	double acum = 0, y2;
 	for (int k = 0; k < nn; k++) {
 		y2 = PointValue(MyNodes[k].x);
 		acum += (MyNodes[k].var[0] - y2)*(MyNodes[k].var[0] - y2);

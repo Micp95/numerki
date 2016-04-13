@@ -2,10 +2,11 @@
 #define HERMITE_H
 
 #include "global.h"
+#include "polynomial.h"
 
 //Struktura przechowujaca wejscie do algorytmu
 struct HNode{
-	HNode(int n,float x,float*var);
+	HNode(int n,double x, double*var);
 	HNode():var(NULL) {};
 	HNode(const HNode& nh);
 
@@ -14,34 +15,34 @@ struct HNode{
 	~HNode();
 
 	int n;			//ilosc informacji
-	float x;		//wartosci x
-	float* var;		//informacje o x: 0-f(x), n-pochodne
+	double x;		//wartosci x
+	double* var;		//informacje o x: 0-f(x), n-pochodne
 };
 
 
-class Hermite{
+class Hermite: public polynomial{
 public:
 	Hermite(int n, HNode* node);
 	~Hermite();
 
-	float PointValue(float x);
-	float SSE();
+	virtual double PointValue(double x);
+	virtual double SSE();
 private:
 	HNode* MyNodes;
 
 	int n,nn;
 
-	float* a;
-	float* xi;
+	double* a;
+	double* xi;
 	int*  nodeIndex;
 
 	void interpolation();
 	void initialization();
 
-	float thisSameFun(HNode x,int degree);
-	float otherFun(float x1, float x2, float fx1, float fx2);
+	double thisSameFun(HNode x,int degree);
+	double otherFun(double x1, double x2, double fx1, double fx2);
 
-	float factorial(int x);
+	double factorial(int x);
 };
 
 
