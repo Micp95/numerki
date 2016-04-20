@@ -2,7 +2,7 @@
 //#define INTER_LAGRANGE		//Lagrange interpolation
 //#define APPROX_LS				//Least-squares function approximation
 #define INTEGRAL				//Integral calculator (Methods: Rectangle, Trapezoidal, Simpson)
-#define ALL_LIB
+//#define ALL_LIB
 
 
 #include <iostream>
@@ -30,11 +30,12 @@ using namespace std;
 //Others definitions
 #if defined(INTEGRAL) || defined(ALL_LIB)
 double fun(double x) {
-	return 5;
+	return x*x+2*x+3;
+}
+double funGauss(double x) {
+	return 1 / x;
 }
 #endif
-
-
 
 //Main function
 int main() {
@@ -81,9 +82,6 @@ int main() {
 	Approximation::Point tab[] = { Approximation::Point(1,-1), Approximation::Point(3,101), Approximation::Point(5,739),
 		Approximation::Point(6,1499), Approximation::Point(7,2729)};
 	/*
-	Approximation::Point tab[] = { Approximation::Point(1,1), Approximation::Point(3,2), Approximation::Point(4,4),
-		Approximation::Point(6,4), Approximation::Point(8,5), Approximation::Point(9,7),
-		Approximation::Point(11,8), Approximation::Point(14,9) };
 	Approximation::Point tab[] = {
 		Approximation::Point(1,62),Approximation::Point(2,232),
 		Approximation::Point(3,1330),Approximation::Point(4,5984),
@@ -93,11 +91,16 @@ int main() {
 		Approximation::Point(11,1966642),Approximation::Point(12,3282352),
 		Approximation::Point(13,5262830),Approximation::Point(14,8153584),
 	};
-	*/
 	
 
-	Approximation aproks(tab, 5, 5, Approximation::sel::Gausse);
+	Approximation aproks(tab, 14, 6, Approximation::sel::Gauss);
 	
+	Approximation::Point tab[] = { Approximation::Point(1,1), Approximation::Point(3,2), Approximation::Point(4,4),
+		Approximation::Point(6,4), Approximation::Point(8,5), Approximation::Point(9,7),
+		Approximation::Point(11,8), Approximation::Point(14,9) };
+	*/
+	Approximation aproks(tab, 5, 5, Approximation::sel::Gauss);
+
 	double* out = aproks.getOutput();
 	
 	cout << endl << endl;
@@ -117,13 +120,19 @@ int main() {
 
 #ifdef INTEGRAL
 
-	Integral integral(fun, Integral::method::Rectangle);
-	
-	cout << "Pole liczone metoda prostokatow wynosi:\t" << integral.calculate(0, 5, 1)<<endl;
+	Integral integral(funGauss, Integral::method::Rectangle);
+	double a = 1, b = 2;
+
+	cout << "Pole liczone metoda prostokatow wynosi:\t" << integral.calculate(a, b, 1000)<<endl;
 	integral.setMethod(Integral::method::Trapezoidal);
-	cout << "Pole liczone metoda trapezow wynosi:\t" << integral.calculate(0, 5, 10) << endl;
+	cout << "Pole liczone metoda trapezow wynosi:\t" << integral.calculate(a, b, 1000) << endl;
 	integral.setMethod(Integral::method::Simpson);
-	cout << "Pole liczone metoda Simpsona wynosi:\t" << integral.calculate(0, 5, 100) << endl;
+	cout << "Pole liczone metoda Simpsona wynosi:\t" << integral.calculate(a, b	, 1000) << endl;
+
+	integral.setMethod(Integral::method::Gauss);
+	cout << "Pole liczone metoda Gaussa (stopien 1) wynosi:\t" << integral.calculate(a, b, 1) << endl;
+	cout << "Pole liczone metoda Gaussa (stopien 3) wynosi:\t" << integral.calculate(a, b, 3) << endl;
+
 
 #endif
 	

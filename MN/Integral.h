@@ -9,7 +9,9 @@ public:
 	enum method {
 		Rectangle,
 		Trapezoidal,
-		Simpson
+		Simpson,
+		Gauss,
+		Newton
 	};
 
 	Integral(polynomial* pol, method myMethod);
@@ -31,6 +33,30 @@ private:
 	double funRectangle(double a, double b, int n);
 	double funTrapezoidal(double a, double b, int n);
 	double funSimpson(double a, double b, int n);
+	double funGauss(double a, double b, int n);
+	double funNewton(double a, double b, int n);
+
+	class GaussTab
+	{
+	public:
+		GaussTab(int N);
+		~GaussTab();
+
+		int getSize();
+		int getK(int k);
+		double getXk(int k);
+		double getAk(int k);
+
+
+	private:
+		int N;
+		int*k;
+		double* Xk;
+		double* Ak;
+
+	};
+
+
 };
 
 

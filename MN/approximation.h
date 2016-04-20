@@ -1,14 +1,13 @@
 #ifndef APPROXIMATION_H
 #define APPROXIMATION_H
 
-
 #include "polynomial.h"
 
 class Approximation: public polynomial{
 public:
 
 	enum sel {
-		Cramer,Gausse
+		Cramer,Gauss
 	};
 	//Pomocnicze struktury
 	struct Point{
@@ -56,7 +55,7 @@ private:
 	double vectorSum(int k);
 
 	void CramerFun();
-	void GausseFun();
+	void GaussFun();
 
 	int sizeIn;
 	Point* input;

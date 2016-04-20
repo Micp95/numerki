@@ -135,50 +135,26 @@ void Approximation::CramerFun() {
 		delete newMatrix;
 	}
 }
-//#include <iostream>
-//using namespace std;
+
 
 void Approximation::GausseFun() {
 	double tmp, tmp2;
-	int cont = 0;
+
 
 	for (int k = 0; k < funDe; k++) {
 		for (int p = k+1; p < funDe; p++) {
+
 			tmp = tmpMatrix->get(k, p) / tmpMatrix->get(k, k);
+
 			for (int r = k; r < funDe; r++) {
-				//if (r == funDe-1 )
-				//	cout << "gfd";
 				tmp2 = tmp * tmpMatrix->get(r, k);
 				tmpMatrix->set(tmpMatrix->get(r,p)- tmp2, r, p);
 			}
-			//if (k == funDe - 2)
-			//	cout << "fds";
+
 			tmp2 = tmp * vectr[k];
 			vectr[p] = vectr[p] - tmp2;
 		}
-
-		/*
-		for (int y = 0; y < funDe; y++) {
-			for (int x = 0; x < funDe; x++) {
-				cout << tmpMatrix->get(x, y) << "\t";
-			}
-			cout << endl;
-		}
-		cout << endl;
-		*/
 	}
-	/*
-	for (int y = 0; y < funDe; y++) {
-		for (int x = 0; x < funDe; x++) {
-			cout << tmpMatrix->get(x, y) << "\t";
-		}
-		cout << endl;
-	}
-	cout << endl;
-	for (int k = 0; k < funDe; k++)
-		cout << vectr[k] << " ";
-	cout << endl;
-	*/
 
 	for (int k = funDe - 1; k >= 0; k--) {
  		tmp = vectr[k];
@@ -226,7 +202,6 @@ Approximation::~Approximation(){
 	delete[] input;
 	delete tmpMatrix;
 	delete[] vectr;
-	delete[] output;
 }
 
 double Approximation::PointValue(double x){
