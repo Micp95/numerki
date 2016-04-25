@@ -2,6 +2,7 @@
 #define APPROXIMATION_H
 
 #include "polynomial.h"
+#include "Point.h"
 
 class Approximation: public polynomial{
 public:
@@ -9,23 +10,8 @@ public:
 	enum sel {
 		Cramer,Gauss
 	};
+
 	//Pomocnicze struktury
-	struct Point{
-		double x, y;
-		Point(double x, double y) :x(x), y(y) {}
-		Point(Point& other) {
-			x = other.x;
-			y = other.y;
-		}
-		Point() {}
-		Point& operator=(Point& other) {
-			x = other.x;
-			y = other.y;
-			return *this;
-		}
-
-	};
-
 	class Matrix{
 	public:
 		Matrix(int size);
@@ -65,7 +51,6 @@ private:
 	double* vectr;
 
 	double* output;
-
 
 };
 

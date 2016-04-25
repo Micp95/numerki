@@ -47,7 +47,6 @@ private:
 		double getXk(int k);
 		double getAk(int k);
 
-
 	private:
 		int N;
 		int*k;
@@ -55,7 +54,6 @@ private:
 		double* Ak;
 
 	};
-
 
 };
 

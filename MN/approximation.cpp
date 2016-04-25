@@ -104,8 +104,8 @@ void Approximation::approximation() {
 
 	if (mySel == sel::Cramer)
 		CramerFun();
-	else if (mySel == sel::Gausse)
-		GausseFun();
+	else if (mySel == sel::Gauss)
+		GaussFun();
 
 }
 
@@ -137,7 +137,7 @@ void Approximation::CramerFun() {
 }
 
 
-void Approximation::GausseFun() {
+void Approximation::GaussFun() {
 	double tmp, tmp2;
 
 

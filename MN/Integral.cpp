@@ -136,8 +136,8 @@ Integral::GaussTab::GaussTab(int N)
 		Xk[1] = 0;
 		Xk[2] = 0.774597;
 
-		Ak[0] = Ak[2] = 5/9;
-		Ak[1] = 8 / 9;
+		Ak[0] = Ak[2] = 5.0/9.0;
+		Ak[1] = 8.0 / 9.0;
 	}
 	else if (N == 4) {
 		Xk[0] = -0.861136;

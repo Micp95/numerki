@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="approximation.cpp" />
+    <ClCompile Include="differential.cpp" />
     <ClCompile Include="hermite.cpp" />
     <ClCompile Include="Integral.cpp" />
     <ClCompile Include="interpolation.cpp" />
@@ -126,10 +127,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="approximation.h" />
+    <ClInclude Include="differential.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="hermite.h" />
     <ClInclude Include="Integral.h" />
     <ClInclude Include="interpolation.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="polynomial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
