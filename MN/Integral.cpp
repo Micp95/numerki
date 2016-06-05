@@ -33,7 +33,7 @@ double Integral::calculate(double a, double b, int n){
 	case Integral::Simpson:
 		return funSimpson(a, b, n);
 	case Integral::Gauss:
-		return funGauss(a, b, n);
+		return funGauss(a, b, --n);
 	case Integral::Newton:
 		return funNewton(a, b, n);
 	default:

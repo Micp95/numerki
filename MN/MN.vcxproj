@@ -119,19 +119,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="approximation.cpp" />
+    <ClCompile Include="derivative.cpp" />
     <ClCompile Include="differential.cpp" />
-    <ClCompile Include="hermite.cpp" />
+    <ClCompile Include="equations.cpp" />
+    <ClCompile Include="interpolationHermite.cpp" />
     <ClCompile Include="Integral.cpp" />
-    <ClCompile Include="interpolation.cpp" />
+    <ClCompile Include="interpolationLagrange.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NonlinearControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="approximation.h" />
+    <ClInclude Include="derivative.h" />
     <ClInclude Include="differential.h" />
+    <ClInclude Include="equations.h" />
     <ClInclude Include="global.h" />
-    <ClInclude Include="hermite.h" />
+    <ClInclude Include="interpolationHermite.h" />
     <ClInclude Include="Integral.h" />
-    <ClInclude Include="interpolation.h" />
+    <ClInclude Include="interpolationLagrange.h" />
+    <ClInclude Include="NonlinearControl.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="polynomial.h" />
   </ItemGroup>

@@ -18,12 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpolation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hermite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="approximation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -33,15 +27,24 @@
     <ClCompile Include="differential.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="equations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NonlinearControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="derivative.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="interpolationHermite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="interpolationLagrange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interpolation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hermite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="approximation.h">
@@ -57,6 +60,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="equations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NonlinearControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="derivative.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interpolationHermite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interpolationLagrange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

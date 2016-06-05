@@ -14,6 +14,10 @@ double differential::calculateDiffrential(double a, double b, Point start, doubl
 		return diffrentialRugegKuttIV(a, b, start, h, x);
 	case differential::RungegKuttyII:
 		return diffrentialRugegKuttII(a, b, start, h, x);
+	case differential::Heuna:
+		return diffrentialHeun(a, b, start, h, x);
+	case differential::modEulera:
+		return diffrentialModEuler(a, b, start, h, x);
 	default:
 		break;
 	}
@@ -61,6 +65,34 @@ double differential::diffrentialRugegKuttII(double a, double b, Point start, dou
 
 	double y = diffrentialUniversalFunction(a,xx,start,h,fi);
 	delete[] k;
+
+	return y;
+}
+
+double differential::diffrentialHeun(double a, double b, Point start, double h, double xx)
+{
+	double(*fun)(double x, double y) = function;
+
+	auto fi = [&h, &fun](double x, double y) -> double {
+		
+		return (0.5)*(fun(x, y) + fun(x + h*y, y + h*fun(x, y)));
+	};
+
+	double y = diffrentialUniversalFunction(a, xx, start, h, fi);
+
+	return y;
+}
+
+double differential::diffrentialModEuler(double a, double b, Point start, double h, double xx)
+{
+	double(*fun)(double x, double y) = function;
+
+	auto fi = [&h, &fun](double x, double y) -> double {
+
+		return fun(x + 0.5*h,y+0.5*h*fun(x,y));
+	};
+
+	double y = diffrentialUniversalFunction(a,	 xx, start, h, fi);
 
 	return y;
 }

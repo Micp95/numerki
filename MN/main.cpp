@@ -1,91 +1,115 @@
-//#define INTER_HERMITE			//Hermite interpolation
+//Defines - select your exercise
+
 //#define INTER_LAGRANGE		//Lagrange interpolation
+//#define INTER_HERMITE			//Hermite interpolation
 //#define APPROX_LS				//Least-squares function approximation
 //#define INTEGRAL				//Integral calculator (Methods: Rectangle, Trapezoidal, Simpson)
-#define DIFFERENTIAL			//Diffrential - Methods: Euler and Rugeg-Kutt (II, IV)
-//#define ALL_LIB
+//#define DIFFERENTIAL			//Diffrential - Methods: Euler and Rugeg-Kutt (II, IV)
+//#define EQUATIONS
+#define NONLINEAR
 
 
+//Standard includes
 #include <iostream>
 #include <string>
-#include "Point.h"
 using namespace std;
 
-
 //Includes to execises
-#if defined(INTER_LAGRANGE) || defined(ALL_LIB)
-#include "interpolation.h"
-#endif
-#if defined(INTER_HERMITE) || defined(ALL_LIB)
-#include "hermite.h"
-#endif
-#if defined(APPROX_LS) || defined(ALL_LIB)
+#include "Point.h"
+#include "polynomial.h" 
+
+#include "interpolationLagrange.h"
+#include "interpolationHermite.h"
 #include "approximation.h"
-#endif
-#if defined(INTEGRAL) || defined(ALL_LIB)
 #include "Integral.h"
-#include "polynomial.h"
-#endif
-#if defined(DIFFERENTIAL) || defined(ALL_LIB)
 #include "differential.h"
-#endif
+#include "equations.h"
+#include "derivative.h"
+#include "NonlinearControl.h"
 
 
-//Others definitions
-#if defined(INTEGRAL) || defined(ALL_LIB)
-double fun(double x) {
-	return x*x+2*x+3;
-}
+//Math functions
+
+//INTEGRAL
 double funGauss(double x) {
 	return 1 / x;
 }
-#endif
 
-#if defined(DIFFERENTIAL) || defined(ALL_LIB)
+//DIFFERENTIAL
 double funEuler(double x, double y) {
 	return x*x + y;
 }
-double funRK(double x, double y) {
-	return y - x*x;
+
+//NONLINEAR 
+double funx(double x) {//function
+	return x*x -2 ;
 }
-#endif
+
+double funP(double x){//derivative of the function
+	return 2 * x;
+}
+
+
 
 //Main function
 int main() {
 
 #ifdef INTER_LAGRANGE
-	float* x = new float[3]{ 1,2,4 };
-	float* y = new float[3]{ 1,2,1 };
+	double* x = new double[3]{ 1,2,4 };
+	double* y = new double[3]{ 1,2,1 };
+	int stopien = 2;
 
-
-	polynomial wiel(x, y, 3, 3);
-	for (int k = 0; k < 5; k++)
+	interpolationLagrange wiel(x, y, 3, stopien);
+	for (int k = -10; k < 10; k++)
 		cout << k << "\t" << wiel.PointValue(k) << endl;
 
+
 	cout << "Error\t" << wiel.SSE() << endl;
+
+
+	double* wsp = wiel.getFactors();
+	cout << "Wspolczynniki:";
+	for (int k = 0; k <= stopien; k++)
+		cout << "\t" << wsp[k] ;
+	cout << endl;
+
 
 	delete[] x;
 	delete[] y;
 #endif
 
 #ifdef INTER_HERMITE
-	float fx1[] = { 3,-1 };
-	float fx2[] = { 1,-5,-8 };
-	//float fx3[] = { 2,8,56 };
+	double fx1[] = { 3,-1 };
+	double fx2[] = { 1,-5,-8 };
+	//float fx3[] = { 2,8,56 }; 
+
+	int ilosc = 2;
 
 	HNode x1(2, 0, fx1);
 	HNode x2(3, 1, fx2);
 	//HNode x3(3, 1, fx3);
 
-	HNode* tmp = new HNode[2];
+	HNode* tmp = new HNode[ilosc];
 	tmp[0] = x1;
 	tmp[1] = x2;
 	//tmp[2] = x3;
 
-	Hermite inter(2, tmp);
-	cout << inter.PointValue(0) << endl;
-	cout << inter.PointValue(1) << endl;
+	interpolationHermite inter(ilosc, tmp);
+	for (int k = -10; k < 10; k++)
+		cout <<k <<"\t"<< inter.PointValue(k) << endl;
+	
+	cout <<"Error::\t"<<inter.SSE()<<endl;
+	//cout << inter.PointValue(0) << endl;
+	//cout << inter.PointValue(1) << endl;
 	//cout << inter.PointValue(2) << endl;
+
+
+	double* wsp = inter.getFactors();
+	cout << "Wspolczynniki:";
+	for (int k = 0; k <= ilosc; k++)
+		cout << "\t" << wsp[k];
+	cout << endl;
+
 
 	delete[] tmp;
 #endif
@@ -94,40 +118,27 @@ int main() {
 
 	Point tab[] = { Point(1,-1), Point(3,101), Point(5,739),
 		Point(6,1499), Point(7,2729)};
-	/*
-	Point tab[] = {
-		Point(1,62),Point(2,232),
-		Point(3,1330),Point(4,5984),
-		Point(5, 20590), Point(6, 57952),
-		Point(7,140642),Point(8,305080),
-		Point(9,606334),Point(10,1123640),
-		Point(11,1966642),Point(12,3282352),
-		Point(13,5262830),Point(14,8153584),
-	};
-	
 
-	Approximation aproks(tab, 14, 6, Approximation::sel::Gauss);
-	
-	Point tab[] = { Point(1,1), Point(3,2), Point(4,4),
-		Point(6,4), Point(8,5), Point(9,7),
-		Point(11,8), Point(14,9) };
-	*/
-	Approximation aproks(tab, 5, 5, Approximation::sel::Gauss);
+	int ilosc = 5;
+	int stopien = 4 ;
 
-	double* out = aproks.getOutput();
-	
-	cout << endl << endl;
-	for (int k = 0; k < 6; k++)
-		cout << out[k] << " "; 
-	
-	cout << endl<<endl;
+	Approximation aproks(tab, ilosc, stopien, Approximation::sel::Gauss);
 
-	for (int k = 1; k < 15; k++)
-		cout << k << ".\t" << aproks.PointValue(k) << endl;
-	
-	cout <<endl <<"Error:\t"<< aproks.SSE() << endl;
+	for (int k = -10; k < 10; k++)
+		cout << k << "\t" << aproks.PointValue(k) << endl;
 
-	delete[] out;
+
+	cout << "Error::\t" << aproks.SSE() << endl;
+
+
+	double* wsp = aproks.getOutput();
+	cout << "Wspolczynniki:";
+	for (int k = 0; k <= stopien; k++)
+		cout << "\t" << wsp[k];
+	cout << endl;
+
+
+	delete[] wsp;
 
 #endif
 
@@ -136,6 +147,7 @@ int main() {
 	Integral integral(funGauss, Integral::method::Rectangle);
 	double a = 1, b = 2;
 
+	cout.precision(30);
 	cout << "Pole liczone metoda prostokatow wynosi:\t" << integral.calculate(a, b, 1000)<<endl;
 	integral.setMethod(Integral::method::Trapezoidal);
 	cout << "Pole liczone metoda trapezow wynosi:\t" << integral.calculate(a, b, 1000) << endl;
@@ -143,11 +155,11 @@ int main() {
 	cout << "Pole liczone metoda Simpsona wynosi:\t" << integral.calculate(a, b	, 1000) << endl;
 
 	integral.setMethod(Integral::method::Gauss);
-	//cout << "Pole liczone metoda Gaussa (stopien 1) wynosi:\t" << integral.calculate(a, b, 1) << endl;
-	//cout << "Pole liczone metoda Gaussa (stopien 3) wynosi:\t" << integral.calculate(a, b, 3) << endl;
+
+
 	cout << "\n\n";
-	for (int k = 1; k <=4;k++)
-		cout << "Pole liczone metoda Gaussa (stopien "<<k<<") wynosi:\t" << integral.calculate(a, b, k) << endl;
+	for (int k = 2; k <=5;k++)
+		cout << "Pole liczone metoda Gaussa (wezly "<<k<<") wynosi:\t" << integral.calculate(a, b, k) << endl;
 
 
 #endif
@@ -156,30 +168,93 @@ int main() {
 
 	differential rozniczka(funEuler,differential::Euler);
 
-	cout << "Rozniczka policzona metoda Eulera:\n\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\n\t\t";
-	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 1) << endl;
+	cout.precision(30);
+	cout << "Rozniczka policzona metoda Eulera:\n"
+		<<"\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\n\t\t";
+	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 1) << endl << endl;
 
-	cout << "Rozniczka policzona metoda Eulera:\n\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\tw punkcie 0.3\n\t\t";
-	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 0.3) << endl;
+	cout << "Rozniczka policzona metoda Eulera:\n"
+		<<"\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\tw punkcie 0.3\n\t\t";
+	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 0.3) << endl << endl;
+
+
+	rozniczka.setMethod(differential::Heuna);
+	cout << "Rozniczka policzona metoda Heuna:\n"
+		<< "\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\tw punkcie 0.3\n\t\t";
+	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 0.3) << endl <<endl;
+
+	rozniczka.setMethod(differential::modEulera);
+	cout << "Rozniczka policzona metoda modyfikowana Eulera:\n"
+		<< "\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\tw punkcie 0.3\n\t\t";
+	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 0.3) << endl << endl;
+
 
 	rozniczka.setMethod(differential::RungegKuttyII);
-	cout << "Rozniczka policzona metoda Eulera:\n\tPrzedzial 0-1\tkrok: 0.01\tstart point (0,1)\tw punkcie 0.1\n\t\t";
-	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 1), 0.01, 0.1) << endl;
+	cout << "Rozniczka policzona metoda RK II:\n"
+		<< "\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\tw punkcie 0.3\n\t\t";
+	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 0.3) << endl << endl;
 
 	rozniczka.setMethod(differential::RungegKuttyIV);
-	cout << "Rozniczka policzona metoda Eulera:\n\tPrzedzial 0-1\tkrok: 0.01\tstart point (0,1)\tw punkcie 0.1\n\t\t";
-	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 1), 0.01, 0.1) << endl;
-
-#endif
-
-
-#ifdef ALL_LIB
-
-
+	cout << "Rozniczka policzona metoda RK IV:\n"
+		<< "\tPrzedzial 0-1\tkrok: 0.1\tstart point (0,0.1)\tw punkcie 0.3\n\t\t";
+	cout << rozniczka.calculateDiffrential(0, 1, Point(0, 0.1), 0.1, 0.3) << endl << endl;
 
 
 #endif
 
+#ifdef EQUATIONS
+	int wymiar = 3;
+	double matrix[3][3] = { 3,1,1,
+							0,5,1,
+							1,1,6};
+
+	double vector[3] = {5,6,8};
+
+	Equations equations(matrix[0], vector, wymiar);
+
+
+	double* res = equations.result(Equations::Jacob);
+
+	cout << "Obliczone metoda Jacobiego:" << endl;
+	for (int k = 0; k < wymiar; k++)
+		cout << "\t" << res[k];
+	cout << endl;
+
+	delete[] res;
+
+
+	cout << "Obliczone metoda Gaussa:" << endl;
+	res = equations.result(Equations::Gauss);
+	for (int k = 0; k < wymiar; k++)
+		cout << "\t" << res[k];
+	cout << endl;
+
+	delete[] res;
+
+#endif
+
+#ifdef NONLINEAR
+	double x;
+	double err = 1E-6;
+
+	double A = 1;
+	double B = 4;
+
+	cout << "Error:" << err << endl<<endl;
+
+	NonlinearControl ag(A, B, funx, funP, err);
+
+
+	cout << "Obliczone metoda Newton:" << endl;
+	x = ag.count(NonlinearControl::select::Newton);
+	cout <<"f( " << x << " )=\t" << funx(x) << endl;
+	cout << endl;
+
+
+	cout << "Obliczone metoda siecznych:" << endl;
+	x = ag.count(NonlinearControl::select::Secant);
+	cout << "f( " << x << " )=\t" << funx(x) << endl;
+#endif
 
 	system("pause");
 	return 0;

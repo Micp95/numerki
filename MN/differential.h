@@ -7,7 +7,7 @@ class differential
 {
 public:
 	enum Method {
-		Euler, RungegKuttyIV, RungegKuttyII
+		Euler, RungegKuttyIV, RungegKuttyII, Heuna,modEulera
 	};
 
 	differential(double(*function)(double x, double y),Method method) : function(function),myMethod(method) {};
@@ -21,6 +21,10 @@ private:
 	double diffrentialEuler(double a, double b, Point start, double h,double x);
 	double diffrentialRugegKuttIV(double a, double b, Point start, double h, double x);
 	double diffrentialRugegKuttII(double a, double b, Point start, double h, double x);
+
+
+	double diffrentialHeun(double a, double b, Point start, double h, double x);
+	double diffrentialModEuler(double a, double b, Point start, double h, double x);
 
 	double(*function)(double x, double y);
 	int compartment(double a, double b,double h);
